@@ -1,5 +1,7 @@
 package com.epam.second_stage.errors_exceptions.faculties;
 
+import com.epam.second_stage.errors_exceptions.exceptions_resourses.AbsenceOfFacultiesException;
+import com.epam.second_stage.errors_exceptions.exceptions_resourses.AbsenceOfGroupsException;
 import com.epam.second_stage.errors_exceptions.groups.Group;
 import com.epam.second_stage.errors_exceptions.students.Student;
 
@@ -63,16 +65,15 @@ public class Faculty {
         this.listOfGroups = listOfGroups;
     }
 
-    public double averageMarkOfStudentsInAParticularFaculty() {
+    public double averageMarkOfStudentsInAParticularFaculty() throws AbsenceOfGroupsException, AbsenceOfFacultiesException {
         double averageMarkInParticularFaculty;
         int counter = 0;
         double sumInParticularFaculty = 0;
         double sumInParticularGroup = 0;
         if (listOfGroups.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new AbsenceOfGroupsException("Should be at least one group in faculty");
         }
         for (Group group : listOfGroups) {
-
             for (Student student : group.getListOfStudents()) {
                 if (student.getMarksOfStudents().containsKey("civilLawMark")) {
                     sumInParticularGroup += student.getMarksOfStudents().get("civilLawMark");
@@ -82,7 +83,7 @@ public class Faculty {
             sumInParticularFaculty += sumInParticularGroup;
         }
         if (counter == 0) {
-            throw new IllegalArgumentException(); // ОТСУТСТВИЕ ФАКУЛЬТЕТОВ В УНИВЕРСИТЕТЕ
+            throw new AbsenceOfFacultiesException("Should be at least one faculty in university");
         }
         averageMarkInParticularFaculty = sumInParticularFaculty / counter;
         return averageMarkInParticularFaculty;

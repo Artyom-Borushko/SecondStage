@@ -1,5 +1,7 @@
 package com.epam.second_stage.errors_exceptions.groups;
 
+import com.epam.second_stage.errors_exceptions.exceptions_resourses.AbsenceOfStudentsInGroupException;
+import com.epam.second_stage.errors_exceptions.exceptions_resourses.AbsenceOfSubjectsException;
 import com.epam.second_stage.errors_exceptions.students.Student;
 
 import java.util.ArrayList;
@@ -73,18 +75,21 @@ public class Group {
         this.listOfStudents = listOfStudents;
     }
 
-    public double averageMarkOfStudentsInAParticularGroup() {
-        double averageMarkInParticularGroup = 0;
+    public double averageMarkOfStudentsInAParticularGroup() throws AbsenceOfSubjectsException, AbsenceOfStudentsInGroupException {
+        double averageMarkInParticularGroup;
         int counter = 0;
         double sumInParticularGroup = 0;
-        for (Student student: listOfStudents) {
-            if (student.getMarksOfStudents().containsKey("civilLawMark")) {
-                sumInParticularGroup += student.getMarksOfStudents().get("civilLawMark");
-                counter++;
-            }
+        if (getListOfStudents().isEmpty()) {
+            throw new AbsenceOfStudentsInGroupException("Should be at least one student in group");
         }
-        if (counter == 0) {     // НЕТ ПРЕДМЕТОВ У СТУДЕНТА
-            throw  new IllegalArgumentException();
+            for (Student student : listOfStudents) {
+                if (student.getMarksOfStudents().containsKey("civilLawMark")) {
+                    sumInParticularGroup += student.getMarksOfStudents().get("civilLawMark");
+                    counter++;
+                }
+            }
+        if (counter == 0) {
+            throw  new AbsenceOfSubjectsException("Student should have at least one subject");
         }
         averageMarkInParticularGroup = sumInParticularGroup / counter;
         return averageMarkInParticularGroup;

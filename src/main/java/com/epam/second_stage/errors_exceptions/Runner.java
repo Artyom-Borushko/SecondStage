@@ -1,5 +1,6 @@
 package com.epam.second_stage.errors_exceptions;
 
+import com.epam.second_stage.errors_exceptions.exceptions_resourses.*;
 import com.epam.second_stage.errors_exceptions.faculties.Faculty;
 import com.epam.second_stage.errors_exceptions.faculties.GeoFaculty;
 import com.epam.second_stage.errors_exceptions.faculties.LawFaculty;
@@ -54,12 +55,34 @@ public class Runner {
         secondGeoStudent.getMarksOfStudents().put("topologyMark", 10);
 
 
-        System.out.println("Average mark for all student's subjects is " + firstGeoStudent.averageMarkForAllStudentsSubjects());
+        try {
+            System.out.println("Average mark for all student's subjects is " + firstGeoStudent.averageMarkForAllStudentsSubjects());
+        } catch (AbsenceOfSubjectsException e) {
+            e.printStackTrace();
+        } catch (InvalidMarksException e) {
+            e.printStackTrace();
+        }
 
-        System.out.println("Average mark for particular subject in particular group is " + lawFacultyGroup.averageMarkOfStudentsInAParticularGroup());
+        try {
+            System.out.println("Average mark for particular subject in particular group is " + lawFacultyGroup.averageMarkOfStudentsInAParticularGroup());
+        } catch (AbsenceOfSubjectsException e) {
+            e.printStackTrace();
+        } catch (AbsenceOfStudentsInGroupException e) {
+            e.printStackTrace();
+        }
 
-        System.out.println("Average mark for particular subject in particular faculty is " + lawFaculty.averageMarkOfStudentsInAParticularFaculty());
+        try {
+            System.out.println("Average mark for particular subject in particular faculty is " + lawFaculty.averageMarkOfStudentsInAParticularFaculty());
+        } catch (AbsenceOfGroupsException e) {
+            e.printStackTrace();
+        } catch (AbsenceOfFacultiesException e) {
+            e.printStackTrace();
+        }
 
-        System.out.println("Average mark for entire university is " + BSU.averageMarkInSubjectForEntireUniversity());
+        try {
+            System.out.println("Average mark for entire university is " + BSU.averageMarkInSubjectForEntireUniversity());
+        } catch (AbsenceOfFacultiesException e) {
+            e.printStackTrace();
+        }
     }
 }

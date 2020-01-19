@@ -1,5 +1,8 @@
 package com.epam.second_stage.errors_exceptions.students;
 
+import com.epam.second_stage.errors_exceptions.exceptions_resourses.AbsenceOfSubjectsException;
+import com.epam.second_stage.errors_exceptions.exceptions_resourses.InvalidMarksException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,13 +73,21 @@ public class Student {
     public void setMarksOfStudents(Map<String, Integer> marksOfStudents) {
         this.marksOfStudents = marksOfStudents;
     }
-    public double averageMarkForAllStudentsSubjects() {
+
+    public double averageMarkForAllStudentsSubjects() throws AbsenceOfSubjectsException, InvalidMarksException {
         double averageMark = 0;
         double sumOfMarks = 0;
-        for (Integer marks : marksOfStudents.values()) {
-            sumOfMarks += marks;
-            averageMark = sumOfMarks / marksOfStudents.size();
+        if (marksOfStudents.isEmpty()) {
+            throw new AbsenceOfSubjectsException("Should be at least one subject");
         }
+            for (Integer marks : marksOfStudents.values()) {
+                if (marks < 0 || marks > 10) {
+                    throw new InvalidMarksException("Mark should be higher than 0 and lower than 10");
+                }
+                sumOfMarks += marks;
+                averageMark = sumOfMarks / marksOfStudents.size();
+            }
         return averageMark;
     }
 }
+

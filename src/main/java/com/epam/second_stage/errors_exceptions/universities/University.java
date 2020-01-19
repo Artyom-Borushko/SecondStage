@@ -1,5 +1,6 @@
 package com.epam.second_stage.errors_exceptions.universities;
 
+import com.epam.second_stage.errors_exceptions.exceptions_resourses.AbsenceOfFacultiesException;
 import com.epam.second_stage.errors_exceptions.faculties.Faculty;
 import com.epam.second_stage.errors_exceptions.faculties.GeoFaculty;
 import com.epam.second_stage.errors_exceptions.faculties.LawFaculty;
@@ -47,16 +48,15 @@ public class University {
         this.listOfFaculties = listOfFaculties;
     }
 
-    public double averageMarkInSubjectForEntireUniversity() {
+    public double averageMarkInSubjectForEntireUniversity() throws AbsenceOfFacultiesException {
         double sumInParticularFaculty;
         double sumInParticularGroup;
         double sumInEntireUniversity = 0;
         double averageMarkForEntireUniversity;
         int counter = 0;
         if (listOfFaculties.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new AbsenceOfFacultiesException("Should be at least one faculty in university");
         }
-
         for (Faculty faculty : listOfFaculties) {
             sumInParticularFaculty = 0;
             for (Group group : faculty.getListOfGroups()) {
