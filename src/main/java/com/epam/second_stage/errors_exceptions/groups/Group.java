@@ -20,6 +20,11 @@ public class Group {
         this.nameOfFaculty = nameOfFaculty;
     }
 
+    public Group() {
+
+    }
+
+
     public int getGroupID() {
         return groupID;
     }
@@ -66,5 +71,22 @@ public class Group {
 
     public void setListOfStudents(ArrayList<Student> listOfStudents) {
         this.listOfStudents = listOfStudents;
+    }
+
+    public double averageMarkOfStudentsInAParticularGroup() {
+        double averageMarkInParticularGroup = 0;
+        int counter = 0;
+        double sumInParticularGroup = 0;
+        for (Student student: listOfStudents) {
+            if (student.getMarksOfStudents().containsKey("civilLawMark")) {
+                sumInParticularGroup += student.getMarksOfStudents().get("civilLawMark");
+                counter++;
+            }
+        }
+        if (counter == 0) {     // НЕТ ПРЕДМЕТОВ У СТУДЕНТА
+            throw  new IllegalArgumentException();
+        }
+        averageMarkInParticularGroup = sumInParticularGroup / counter;
+        return averageMarkInParticularGroup;
     }
 }

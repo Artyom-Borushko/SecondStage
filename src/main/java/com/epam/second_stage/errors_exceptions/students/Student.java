@@ -19,6 +19,10 @@ public class Student {
         this.quantityOfSubjects = quantityOfSubjects;
     }
 
+    public Student() {
+
+    }
+
     public int getId() {
         return id;
     }
@@ -65,5 +69,14 @@ public class Student {
 
     public void setMarksOfStudents(Map<String, Integer> marksOfStudents) {
         this.marksOfStudents = marksOfStudents;
+    }
+    public double averageMarkForAllStudentsSubjects() {
+        double averageMark = 0;
+        double sumOfMarks = 0;
+        for (Integer marks : marksOfStudents.values()) {
+            sumOfMarks += marks;
+            averageMark = sumOfMarks / marksOfStudents.size();
+        }
+        return averageMark;
     }
 }

@@ -1,6 +1,7 @@
 package com.epam.second_stage.errors_exceptions.faculties;
 
 import com.epam.second_stage.errors_exceptions.groups.Group;
+import com.epam.second_stage.errors_exceptions.students.Student;
 
 import java.util.ArrayList;
 
@@ -16,6 +17,10 @@ public class Faculty {
         this.nameOfRector = nameOfRector;
         this.quantityOfGroups = quantityOfGroups;
         this.quantityOfStudents = quantityOfStudents;
+    }
+
+    public Faculty() {
+
     }
 
     public int getFacultyID() {
@@ -56,5 +61,30 @@ public class Faculty {
 
     public void setListOfGroups(ArrayList<Group> listOfGroups) {
         this.listOfGroups = listOfGroups;
+    }
+
+    public double averageMarkOfStudentsInAParticularFaculty() {
+        double averageMarkInParticularFaculty;
+        int counter = 0;
+        double sumInParticularFaculty = 0;
+        double sumInParticularGroup = 0;
+        if (listOfGroups.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+        for (Group group : listOfGroups) {
+
+            for (Student student : group.getListOfStudents()) {
+                if (student.getMarksOfStudents().containsKey("civilLawMark")) {
+                    sumInParticularGroup += student.getMarksOfStudents().get("civilLawMark");
+                    counter++;
+                }
+            }
+            sumInParticularFaculty += sumInParticularGroup;
+        }
+        if (counter == 0) {
+            throw new IllegalArgumentException(); // ОТСУТСТВИЕ ФАКУЛЬТЕТОВ В УНИВЕРСИТЕТЕ
+        }
+        averageMarkInParticularFaculty = sumInParticularFaculty / counter;
+        return averageMarkInParticularFaculty;
     }
 }
